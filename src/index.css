@@ -1,0 +1,56 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: "Manrope", sans-serif;
+  color: #1e2129;
+}
+
+h1, h2, h3, .font-display {
+  font-family: "Fraunces", serif;
+}
+
+/* Ticket stub divider: a dashed perforation line with cut notches */
+.stub-cut {
+  position: relative;
+}
+.stub-cut::before,
+.stub-cut::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 16px;
+  height: 16px;
+  background: #f6f4ef;
+  border-radius: 9999px;
+  transform: translateY(-50%);
+}
+.stub-cut::before {
+  left: -8px;
+}
+.stub-cut::after {
+  right: -8px;
+}
+
+.dark-stub-cut::before,
+.dark-stub-cut::after {
+  background: #15171c;
+}
+
+/* Focus visibility */
+:focus-visible {
+  outline: 2px solid #efa22a;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}
