@@ -47,7 +47,7 @@ export default function EventDetail() {
     try {
       await createBooking({event: id, number_of_tickets: quantity,});
       setSuccess(`Booked! ${quantity} ticket${quantity > 1 ? "s" : ""} reserved.`);
-      setEvent((prev) => ({ ...prev, available_seats: prev.available_seats - quantity }));
+      setEvent((prev) => ({ ...prev, available_sets: prev.available_sets - quantity }));
     } catch (err) {
       setError(err.response?.data?.detail || "That booking didn't go through. Try a smaller quantity.");
     } finally {
@@ -58,7 +58,7 @@ export default function EventDetail() {
   if (loading) return <div className="h-96 animate-pulse rounded-2xl bg-ink-600/10" />;
   if (!event) return <p className="text-signal-500">{error || "Event not found."}</p>;
 
-  const maxSelectable = Math.min(MAX_TICKETS_PER_BOOKING, event.available_seats);
+  const maxSelectable = Math.min(MAX_TICKETS_PER_BOOKING, event.available_sets);
   const soldOut = event.available_sets <= 0;
 
   return (
@@ -71,13 +71,20 @@ export default function EventDetail() {
             <div className="flex items-center justify-center h-full text-6xl font-display text-paper/20">
               {event.title?.[0]}
             </div>
+
           )}
         </div>
-        <p className="mt-6 text-xs font-semibold tracking-wide uppercase text-marigold-600">
-          {event.category_name}
-        </p>
+        <p className="flex items-center justify-between mt-6 text-xs font-semibold uppercase text-marigold-600">
+  <span>{event.category?.name}</span>
+
+  <span>
+    Location: {event.locations}
+  </span>
+</p>
         <h1 className="text-3xl font-semibold font-display text-ink-900">{event.title}</h1>
-        <p className="mt-1 text-ink-600">{formatDate(event.date)}</p>
+        <p className="mt-1 text-ink-600"> <span className="text-[rgb(214,135,26)] font-bold">Date: </span>{formatDate(event.event_date)}</p>
+        <p className="mt-1 text-ink-600"><span className="text-[rgb(214,135,26)] font-bold">Time: </span> {(event.event_time)}</p>
+
         <p className="mt-4 whitespace-pre-line text-ink-700">{event.description}</p>
       </div>
 
@@ -85,7 +92,7 @@ export default function EventDetail() {
         <div className="pb-4 border-b border-dashed stub-cut border-ink-600/25">
           <p className="text-2xl font-semibold text-ink-900">{event.price ? `৳${event.price}` : "Free"}</p>
           <p className={`text-sm ${soldOut ? "text-signal-500" : "text-moss-500"}`}>
-            {soldOut ? "Sold out" : `${event.available_sets} seats left`}
+            {soldOut ? "Sold out" : `${event.available_sets} sets left`}
           </p>
         </div>
 

@@ -14,7 +14,7 @@ export default function Events() {
 
   const search = useDebounce(searchInput, 400);
   const category = searchParams.get("category") || "";
-  const ordering = searchParams.get("ordering") || "date";
+  const ordering = searchParams.get("ordering") || "event_date";
   const page = Number(searchParams.get("page") || 1);
 
   useEffect(() => {
@@ -41,10 +41,11 @@ export default function Events() {
   };
 
   return (
+    
     <div className="flex flex-col gap-6">
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wide text-marigold-600">EventHub</p>
-        <h1 className="font-display text-3xl font-semibold text-ink-900">Find your next night out</h1>
+        <p className="text-xs font-semibold tracking-wide uppercase text-marigold-600">EventHub</p>
+        <h1 className="text-3xl font-semibold font-display text-ink-900">Find your next night out</h1>
       </div>
 
       <EventFilters
@@ -66,15 +67,19 @@ export default function Events() {
           ))}
         </div>
       ) : events.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-ink-600/20 p-10 text-center text-ink-600">
+        <p className="p-10 text-center border border-dashed rounded-2xl border-ink-600/20 text-ink-600">
           No events match that search yet — try a different keyword or category.
         </p>
       ) : (
         <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {events.map((event) => (
-            <EventCard key={event.id} event={event} />
-          ))}
-        </div>
+  {events.map((event) => {
+    if (event.is_completed) {
+      return null;
+    }
+
+    return <EventCard key={event.id} event={event} />;
+  })}
+</div>
       )}
 
       <Pagination page={page} totalPages={totalPages} onChange={(p) => updateParam("page", p)} />

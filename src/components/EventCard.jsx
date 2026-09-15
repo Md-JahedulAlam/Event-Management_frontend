@@ -6,7 +6,7 @@ function formatDate(dateStr) {
 }
 
 export default function EventCard({ event }) {
-  const soldOut = event.available_seats <= 0;
+  const soldOut = event.available_sets <= 0;
 
   return (
     <Link
@@ -27,7 +27,7 @@ export default function EventCard({ event }) {
         )}
         {event.category_name && (
           <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-xs font-semibold text-ink-900">
-            {event.category_name}
+            {event.category}
           </span>
         )}
       </div>
@@ -36,7 +36,7 @@ export default function EventCard({ event }) {
 
       <div className="flex flex-col flex-1 gap-2 p-4">
         <p className="text-xs font-semibold tracking-wide uppercase text-marigold-600">
-          {formatDate(event.date)}
+          {formatDate(event.event_date)}
         </p>
         <h3 className="text-lg font-semibold leading-snug font-display text-ink-900">
           {event.title}

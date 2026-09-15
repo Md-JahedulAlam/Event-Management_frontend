@@ -66,8 +66,8 @@ export default function ManageEvents() {
     <div className="flex flex-col gap-6">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-semibold uppercase tracking-wide text-marigold-600">Manage</p>
-          <h1 className="font-display text-3xl font-semibold text-ink-900">Events</h1>
+          <p className="text-xs font-semibold tracking-wide uppercase text-marigold-600">Manage</p>
+          <h1 className="text-3xl font-semibold font-display text-ink-900">Events</h1>
         </div>
         <Button variant="accent" onClick={() => setEditing({})}>
           New event
@@ -76,8 +76,8 @@ export default function ManageEvents() {
 
       {error && <p className="text-sm text-signal-500">{error}</p>}
 
-      <div className="overflow-hidden rounded-2xl border border-ink-600/15 bg-white">
-        <table className="w-full text-left text-sm">
+      <div className="overflow-hidden bg-white border rounded-2xl border-ink-600/15">
+        <table className="w-full text-sm text-left">
           <thead className="bg-ink-900/5 text-ink-600">
             <tr>
               <th className="px-4 py-3 font-medium">Title</th>
@@ -85,6 +85,7 @@ export default function ManageEvents() {
               <th className="px-4 py-3 font-medium">Date</th>
               <th className="px-4 py-3 font-medium">Seats left</th>
               <th className="px-4 py-3 font-medium">Price</th>
+              <th className="px-4 py-3 font-medium">Status</th>
               <th className="px-4 py-3" />
             </tr>
           </thead>
@@ -105,12 +106,17 @@ export default function ManageEvents() {
               events.map((event) => (
                 <tr key={event.id} className="border-t border-ink-600/10">
                   <td className="px-4 py-3 font-medium text-ink-900">{event.title}</td>
-                  <td className="px-4 py-3 text-ink-600">{event.category_name}</td>
-                  <td className="px-4 py-3 text-ink-600">{new Date(event.date).toLocaleDateString()}</td>
+                  <td className="px-4 py-3 text-ink-600">{event.category?.name}</td>
+                  <td className="px-4 py-3 text-ink-600">{new Date(event.event_date).toLocaleDateString()}</td>
                   <td className="px-4 py-3 text-ink-600">
-                    {event.available_seats} / {event.total_seats}
+                    {event.available_sets} / {event.total_sets}
                   </td>
                   <td className="px-4 py-3 text-ink-600">{event.price ? `৳${event.price}` : "Free"}</td>
+                  <td className="px-4 py-3">
+                    {event.is_completed ? (<span className="font-medium text-signal-500">Completed</span>) : (
+                      <span className="font-medium text-green-600">Available</span>
+                    )}
+                  </td>
                   <td className="px-4 py-3 text-right">
                     <button
                       onClick={() => setEditing(event)}
@@ -137,18 +143,21 @@ export default function ManageEvents() {
       <Modal open={!!editing} onClose={() => setEditing(null)} title={editing?.id ? "Edit event" : "New event"} wide>
         {editing && (
           <EventForm
-            initial={
-              editing.id
-                ? {
-                    title: editing.title,
-                    description: editing.description,
-                    category: editing.category,
-                    date: editing.date?.slice(0, 16),
-                    price: editing.price,
-                    total_seats: editing.total_seats,
-                  }
-                : undefined
-            }
+          initial={
+            editing.id
+              ? {
+                  title: editing.title || "",
+                  description: editing.description || "",
+                  category: editing.category?.id || editing.category || "",
+                  locations: editing.locations || "",
+                  event_date: editing.event_date || "",
+                  event_time: editing.event_time?.slice(0, 5) || "",
+                  total_sets: editing.total_sets || "",
+                  available_sets: editing.available_sets || "",
+                  price: editing.price || "",
+                }
+              : undefined
+          }
             categories={categories}
             onSubmit={handleSubmit}
             onCancel={() => setEditing(null)}

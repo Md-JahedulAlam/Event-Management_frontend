@@ -1,13 +1,13 @@
 const orderingOptions = [
-  { value: "date", label: "Date: soonest first" },
-  { value: "-date", label: "Date: latest first" },
+  { value: "-event_date", label: "Date: latest first" },
+  { value: "event_date", label: "Date: soonest first" },
   { value: "price", label: "Price: low to high" },
   { value: "-price", label: "Price: high to low" },
 ];
 
 export default function EventFilters({ search, onSearch, category, onCategory, ordering, onOrdering, categories }) {
   return (
-    <div className="flex flex-col gap-3 rounded-2xl border border-ink-600/15 bg-white p-4 sm:flex-row sm:items-center">
+    <div className="flex flex-col gap-3 p-4 bg-white border rounded-2xl border-ink-600/15 sm:flex-row sm:items-center">
       <input
         value={search}
         onChange={(e) => onSearch(e.target.value)}
