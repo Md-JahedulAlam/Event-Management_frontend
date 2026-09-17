@@ -14,9 +14,9 @@ export default function EventCard({ event }) {
       className="flex flex-col overflow-hidden transition-shadow bg-white border shadow-sm group rounded-2xl border-ink-600/15 hover:shadow-md"
     >
       <div className="relative aspect-[16/10] overflow-hidden bg-ink-800">
-        {event.image ? (
+        {event.Image ? (
           <img
-            src={event.image}
+            src={event.Image}
             alt={event.title}
             className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
           />
@@ -25,11 +25,11 @@ export default function EventCard({ event }) {
             {event.title?.[0] ?? "?"}
           </div>
         )}
-        {event.category_name && (
-          <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-xs font-semibold text-ink-900">
-            {event.category}
-          </span>
-        )}
+       {event.category?.name && (
+  <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-xs font-semibold text-ink-900">
+    {event.category.name}
+  </span>
+)}
       </div>
 
       <div className="mx-4 border-t border-dashed stub-cut border-ink-600/25" />

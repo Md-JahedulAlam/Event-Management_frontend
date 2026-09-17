@@ -101,36 +101,7 @@ export default function ManageBookings() {
   return (
     <div>
       {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <div>
-          <h1 className="text-2xl font-semibold text-gray-800">
-            Manage Bookings
-          </h1>
-
-          <p className="mt-1 text-sm text-gray-500">
-            Manage all event bookings.
-          </p>
-        </div>
-
-        {/* Status Filter */}
-        <select
-          value={status}
-          onChange={(e) => {
-            setStatus(e.target.value);
-            setPage(1);
-          }}
-          className="px-4 py-2 text-sm bg-white border border-gray-300 rounded-lg outline-none focus:border-blue-500"
-        >
-          {statusFilters.map((item) => (
-            <option key={item} value={item}>
-              {item === "all"
-                ? "All"
-                : item.charAt(0).toUpperCase() +
-                  item.slice(1)}
-            </option>
-          ))}
-        </select>
-      </div>
+     
 
       {/* Error */}
       {error && (
@@ -157,16 +128,16 @@ export default function ManageBookings() {
               </th>
 
               <th className="px-4 py-3 font-medium text-gray-600">
+                Booking date
+              </th>
+
+              <th className="px-4 py-3 font-medium text-gray-600">
                 Total Price
               </th>
 
-              <th className="px-4 py-3 font-medium text-gray-600">
-                Status
-              </th>
+              
 
-              <th className="px-4 py-3 font-medium text-gray-600">
-                Action
-              </th>
+              
             </tr>
           </thead>
 
@@ -221,79 +192,23 @@ export default function ManageBookings() {
                     {booking.number_of_tickets ?? 0}
                   </td>
 
+                  {/* Booking Date */}
+                  <td className="px-4 py-4 text-gray-700">
+                    {booking.booking_time
+                      ? new Date(booking.booking_time).toLocaleDateString()
+                      : "Unknown Date"}
+                  </td>
+
                   {/* Total Price */}
                   <td className="px-4 py-4 text-gray-700">
                     ৳{booking.total_price ?? "0.00"}
                   </td>
 
                   {/* Status */}
-                  <td className="px-4 py-4">
-                    <StatusBadge
-                      status={booking.status || "pending"}
-                    />
-                  </td>
+                  
 
                   {/* Action */}
-                  <td className="px-4 py-4">
-                    <div className="flex gap-2">
-                      {booking.status === "pending" && (
-                        <>
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleConfirm(booking)
-                            }
-                            disabled={
-                              updatingId === booking.id
-                            }
-                            className="rounded-md bg-green-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-green-700 disabled:cursor-not-allowed disabled:opacity-50"
-                          >
-                            {updatingId === booking.id
-                              ? "Updating..."
-                              : "Confirm"}
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() =>
-                              handleCancel(booking)
-                            }
-                            disabled={
-                              updatingId === booking.id
-                            }
-                            className="rounded-md bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
-                          >
-                            {updatingId === booking.id
-                              ? "Updating..."
-                              : "Cancel"}
-                          </button>
-                        </>
-                      )}
-
-                      {booking.status === "confirmed" && (
-                        <button
-                          type="button"
-                          onClick={() =>
-                            handleCancel(booking)
-                          }
-                          disabled={
-                            updatingId === booking.id
-                          }
-                          className="rounded-md bg-red-600 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-700 disabled:cursor-not-allowed disabled:opacity-50"
-                        >
-                          {updatingId === booking.id
-                            ? "Updating..."
-                            : "Cancel"}
-                        </button>
-                      )}
-
-                      {booking.status === "cancelled" && (
-                        <span className="text-xs text-gray-400">
-                          Cancelled
-                        </span>
-                      )}
-                    </div>
-                  </td>
+                  
                 </tr>
               ))
             )}

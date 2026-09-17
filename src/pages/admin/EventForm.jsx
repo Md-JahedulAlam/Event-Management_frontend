@@ -6,7 +6,7 @@ import Button from "../../components/Button";
 const emptyForm = {
   title: "",
   description: "",
-  category: "",
+  category_post: "",
   locations: "",
   event_date: "",
   event_time: "",
@@ -91,23 +91,22 @@ export default function EventForm({
       {/* Category & Location */}
       <div className="grid grid-cols-2 gap-4">
 
-        <FormField
-          id="category"
-          name="category"
-          label="Category"
-          as="select"
-          required
-          value={form.category}
-          onChange={handleChange}
-        >
-          <option value="">Select…</option>
-
-          {categories.map((c) => (
-            <option key={c.id} value={c.id}>
-              {c.name}
-            </option>
-          ))}
-        </FormField>
+<FormField
+id="category"
+name="category_post"   
+label="Category"
+as="select"
+required
+value={form.category_post}
+onChange={handleChange}
+>
+<option value="">Select…</option>
+{categories.map((c) => (
+  <option key={c.id} value={c.id}>
+    {c.name}
+  </option>
+))}
+</FormField>
 
         <FormField
           id="locations"

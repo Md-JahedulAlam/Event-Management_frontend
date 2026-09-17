@@ -64,26 +64,30 @@ export default function EventDetail() {
   return (
     <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1.4fr_1fr]">
       <div>
-        <div className="aspect-[16/9] overflow-hidden rounded-2xl bg-ink-800">
-          {event.image ? (
-            <img src={event.image} alt={event.title} className="object-cover w-full h-full" />
-          ) : (
-            <div className="flex items-center justify-center h-full text-6xl font-display text-paper/20">
-              {event.title?.[0]}
-            </div>
-
-          )}
-        </div>
-        <p className="flex items-center justify-between mt-6 text-xs font-semibold uppercase text-marigold-600">
-  <span>{event.category?.name}</span>
-
-  <span>
-    Location: {event.locations}
+      <div className="relative aspect-[16/10] overflow-hidden bg-ink-800">
+        {event.Image ? (
+          <img
+            src={event.Image}
+            alt={event.title}
+            className="object-cover w-full h-full transition-transform duration-300 group-hover:scale-105"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full text-4xl font-display text-paper/30">
+            {event.title?.[0] ?? "?"}
+          </div>
+        )}
+       {event.category?.name && (
+  <span className="absolute left-3 top-3 rounded-full bg-paper/90 px-2.5 py-1 text-xs font-semibold text-ink-900">
+    {event.category.name}
   </span>
-</p>
+)}
+      </div>
+ 
+
         <h1 className="text-3xl font-semibold font-display text-ink-900">{event.title}</h1>
         <p className="mt-1 text-ink-600"> <span className="text-[rgb(214,135,26)] font-bold">Date: </span>{formatDate(event.event_date)}</p>
         <p className="mt-1 text-ink-600"><span className="text-[rgb(214,135,26)] font-bold">Time: </span> {(event.event_time)}</p>
+        <p className="mt-1 text-ink-600"><span className="text-[rgb(214,135,26)] font-bold">Location: </span> {event.locations}</p>
 
         <p className="mt-4 whitespace-pre-line text-ink-700">{event.description}</p>
       </div>
